@@ -1,8 +1,10 @@
 package com.fedormamaevv.SpringProjectTemp;
 
+import org.aspectj.weaver.ast.Not;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +18,24 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getAllUsers(@RequestParam(required = false) String age)
+            throws BadRequestException {
+        List<User> users = new ArrayList<>();
+        List<User> allUsers = userRepository.findAll();
+        if (age == null) return allUsers;
+        int _age;
+        try {
+            _age = Integer.parseInt(age);
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            throw new BadRequestException();
+        }
+        for (User user: allUsers) {
+            if (Math.abs(user.getAge() - _age) <= 5)
+                users.add(user);
+        }
+        return users;
     }
 
     @GetMapping("/users/{id}")
@@ -29,7 +47,10 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public User addUser(@RequestBody User user) throws ConflictException {
+    public User addUser(@RequestBody User user, @RequestParam String repeatPassword)
+            throws ConflictException, BadRequestException {
+        if (repeatPassword.compareTo(user.getPassword()) != 0)
+            throw new BadRequestException();
         if (userRepository.findByUsername(user.getUsername()).isPresent())
             throw new ConflictException();
         return userRepository.save(new User(user.getUsername(), user.getPassword(), user.getAge()));
@@ -44,8 +65,12 @@ public class UserController {
     }
 
     @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user)
-            throws NotFoundException, ConflictException {
+    public User updateUser(@PathVariable Long id,
+                           @RequestBody User user,
+                           @RequestParam String repeatPassword)
+            throws NotFoundException, ConflictException, BadRequestException {
+        if (repeatPassword.compareTo(user.getPassword()) != 0)
+            throw new BadRequestException();
         if (userRepository.findByUsername(user.getUsername()).isPresent())
             throw new ConflictException();
         Optional<User> userData = userRepository.findById(id);

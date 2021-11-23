@@ -1,5 +1,6 @@
 package com.fedormamaevv.SpringProjectTemp;
 
+import org.hibernate.annotations.SQLUpdate;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
