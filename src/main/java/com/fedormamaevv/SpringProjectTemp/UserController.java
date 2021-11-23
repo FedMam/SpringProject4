@@ -23,17 +23,19 @@ public class UserController {
                                   @RequestParam(required = false) String sortBy,
                                   @RequestParam(required = false) String direction)
             throws BadRequestException {
-        List<User> users = new ArrayList<>();
+
         Sort.Direction sortDirection = null;
         if (direction != null && sortBy != null) {
             if (direction.compareTo("up") == 0) sortDirection = Sort.Direction.ASC;
             if (direction.compareTo("down") == 0) sortDirection = Sort.Direction.DESC;
         }
-        List<User> allUsers;
-        if (sortDirection != null) allUsers = userRepository.findAll(Sort.by(sortDirection, sortBy));
-        else allUsers = userRepository.findAll();
-        if (age == null) return allUsers;
-        int _age;
+
+        if (age == null) {
+            if (sortDirection != null) return userRepository.findAll(Sort.by(sortDirection, sortBy));
+            else return userRepository.findAll();
+        }
+
+        long _age;
         try {
             _age = Integer.parseInt(age);
         }
@@ -41,11 +43,9 @@ public class UserController {
             System.out.println(e.getMessage());
             throw new BadRequestException();
         }
-        for (User user: allUsers) {
-            if (Math.abs(user.getAge() - _age) <= 5)
-                users.add(user);
-        }
-        return allUsers;
+
+        if (sortDirection != null) return userRepository.findByAgeBetween(_age - 5, _age + 5, Sort.by(sortDirection, sortBy));
+        else return userRepository.findByAgeBetween(_age - 5, _age + 5);
     }
 
     @GetMapping("/users/{id}")
