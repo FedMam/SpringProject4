@@ -1,6 +1,7 @@
 package com.fedormamaevv.SpringProjectTemp;
 
 import org.aspectj.weaver.ast.Not;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +19,19 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers(@RequestParam(required = false) String age)
+    public List<User> getAllUsers(@RequestParam(required = false) String age,
+                                  @RequestParam(required = false) String sortBy,
+                                  @RequestParam(required = false) String direction)
             throws BadRequestException {
         List<User> users = new ArrayList<>();
-        List<User> allUsers = userRepository.findAll();
+        Sort.Direction sortDirection = null;
+        if (direction != null && sortBy != null) {
+            if (direction.compareTo("up") == 0) sortDirection = Sort.Direction.ASC;
+            if (direction.compareTo("down") == 0) sortDirection = Sort.Direction.DESC;
+        }
+        List<User> allUsers;
+        if (sortDirection != null) allUsers = userRepository.findAll(Sort.by(sortDirection, sortBy));
+        else allUsers = userRepository.findAll();
         if (age == null) return allUsers;
         int _age;
         try {
@@ -35,7 +45,7 @@ public class UserController {
             if (Math.abs(user.getAge() - _age) <= 5)
                 users.add(user);
         }
-        return users;
+        return allUsers;
     }
 
     @GetMapping("/users/{id}")
