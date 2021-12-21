@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Форма для регистрации</title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="index.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body marginwidth="50">
+    <p id="header" align="center">
+        <b>Регистрация на XXIII Международную командную<br>
+        олимпиаду школьников по информатике</b>
+    </p>
+    <br>
+    * Обязательные поля
+    <br>
+    <p>
+        <label for="firstName">Имя *</label><br>
+        <input type="text" id="firstName"/>
+    </p>
+    <br>
+    <p>
+        <label for="lastName">Фамилия *</label><br>
+        <input type="text" id="lastName"/>
+    </p>
+    <br>
+    <p>
+        <label for="phoneNumber">Телефон *</label><br>
+        <input type="text" id="phoneNumber"/>
+    </p>
+    <br>
+    <p>
+        <label for="emailAddress">Email *</label><br>
+        <input type="text" id="emailAddress"/>
+    </p>
+    <br>
+    <p>
+        <label for="grade">Класс *</label><br>
+        <input type="number" id="grade"/>
+    </p>
+    <br>
+    <p>
+        <label for="age">Сколько вам лет?</label><br>
+        <input type="number" id="age"/>
+    </p>
+    <br>
+    <p>
+        <label for="country">Страна</label><br>
+        <input type="text" id="country"/>
+    </p>
+    <br>
+    <p>
+        <label for="region">Регион</label><br>
+        <input type="text" id="region"/>
+    </p>
+    <br>
+    <p>
+        <label for="city">Город</label><br>
+        <input type="text" id="city"/>
+    </p>
+    <br>
+    <p>
+        <label for="school">Школа</label><br>
+        <input type="text" id="school"/>
+    </p>
+    <br>
+    <button id="submit" onclick="submit()">
+        Отправить
+    </button>
+    <button id="table_bt" onclick="location.replace('./participants');">
+        Участники
+    </button>
+    <p id="error"></p>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица участников</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function documentReady() {
+        window.alert('Прошло отделение первой ступени');
+        $.ajax({
+            url: 'http://localhost:8080/api/participants',
+            type: 'GET',
+            dataType: 'json',
+            success: function (participants)
+            {
+                window.alert('Прошло отделение второй ступени');
+                $("#table").append("<tbody></tbody>");
+                participants.forEach(function(index, participant) {
+                    window.alert(participant.firstName);
+                    let row = '<tr><td>';
+                    row += participant.firstName + ' ' + participant.lastName;
+                    row += '</td><td>';
+                    row += participant.grade;
+                    row += '</td><td>';
+                    if (participant.age != 0) row += participant.age;
+                    else row += '-';
+                    row += '</td><td>';
+                    country = participant.country;
+                    region = participant.region;
+                    city = participant.city;
+                    if (city != '')
+                    {
+                        if (country == '')
+                            row += city;
+                        else {
+                            if (region != '')
+                                row += city + ', ' + region + ', ' + country;
+                            else
+                                row += city + ', ' + country;
+                        }
+                    }
+                    else
+                    {
+                        if (country != '') {
+                            if (region != '') row += region + ', ' + country;
+                            else row += county;
+                        }
+                        else row += '-';
+                    }
+                    row += '</td><td>';
+                    if (participant.school == '') row += '-';
+                    else row += participant.school;
+                    row += '</td><td>';
+                    row += 'Телефон: ' + participant.phoneNumber + ' Email: ' + participant.emailAddress;
+                    row += '</td></tr>';
+                    $('#table tbody').append(row);
+                });
+            }
+            error: function (request, message, error) {
+                        window.alert('Ошибка: ' + message)
+                    }
+        });
+    </script>
+</head>
+<body>
+    <p id="header" align="center">
+        <b>Участники XXIII Международной командной <br>
+            олимпиады по информатике</b>
+    </p>
+    <table id="table" class="table table-borderedtable-condensed table-striped">
+        <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Класс</th>
+            <th>Возраст</th>
+            <th>Место жительства</th>
+            <th>Школа</th>
+            <th>Контактные данные</th>
+        </tr>
+        </thead>
+    </table>
+    <button id="registernew" onclick="location.replace('./');">
+        Регистрация нового участника
+    </button>
+</body>
+</html>
+<script>
+  $(document).ready(function () { documentReady(); });
+</script>

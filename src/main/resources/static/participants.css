@@ -1,0 +1,18 @@
+#header {
+    color: firebrick;
+    font-size: 30px;
+}
+
+#register-new {
+    box-sizing: border-box;
+    width: 400px;
+    height: 40px;
+    border: 1px solid indianred;
+    margin: auto;
+    border-radius: 4px;
+    font-family: serif;
+
+    background-color: indianred;
+    color: white;
+    font-size: 20px;
+}

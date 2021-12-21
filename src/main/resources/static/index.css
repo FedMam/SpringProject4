@@ -1,0 +1,23 @@
+#header {
+    color: firebrick;
+    font-size: 30px;
+}
+
+#error {
+    color: red;
+    font-size: 20px;
+}
+
+#submit, #table_bt {
+    box-sizing: border-box;
+    width: 200px;
+    height: 40px;
+    border: 1px solid indianred;
+    margin: auto;
+    border-radius: 4px;
+    font-family: serif;
+
+    background-color: indianred;
+    color: white;
+    font-size: 20px;
+}
