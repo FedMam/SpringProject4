@@ -15,7 +15,6 @@
                 success: function (participants) {
                     $("#table").append("<tbody></tbody>");
                     participants.forEach(function (participant) {
-                        window.alert(participant.firstName);
                         let row = '<tr><td>';
                         row += participant.firstName + ' ' + participant.lastName;
                         row += '</td><td>';

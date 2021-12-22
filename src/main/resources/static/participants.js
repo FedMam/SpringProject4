@@ -4,11 +4,10 @@ $(document).ready(function () {
         url: 'http://localhost:8080/api/participants',
         type: 'GET',
         dataType: 'json',
-        success: function (participants)
-        {
+        success: function (participants) {
             window.alert('Прошло отделение второй ступени');
             $("#table").append("<tbody></tbody>");
-            participants.forEach(function(index, participant) {
+            participants.forEach(function (index, participant) {
                 window.alert(participant.firstName);
                 let row = '<tr><td>';
                 row += participant.firstName + ' ' + participant.lastName;
@@ -21,8 +20,7 @@ $(document).ready(function () {
                 country = participant.country;
                 region = participant.region;
                 city = participant.city;
-                if (city != '')
-                {
+                if (city != '') {
                     if (country == '')
                         row += city;
                     else {
@@ -31,14 +29,11 @@ $(document).ready(function () {
                         else
                             row += city + ', ' + country;
                     }
-                }
-                else
-                {
+                } else {
                     if (country != '') {
                         if (region != '') row += region + ', ' + country;
                         else row += county;
-                    }
-                    else row += '-';
+                    } else row += '-';
                 }
                 row += '</td><td>';
                 if (participant.school == '') row += '-';
@@ -48,9 +43,9 @@ $(document).ready(function () {
                 row += '</td></tr>';
                 $('#table tbody').append(row);
             });
-        }
+        },
         error: function (request, message, error) {
-                    window.alert('Ошибка: ' + message)
-                }
+            window.alert('Ошибка: ' + message)
+        }
     });
   });

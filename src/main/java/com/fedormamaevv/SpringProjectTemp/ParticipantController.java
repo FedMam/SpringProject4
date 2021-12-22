@@ -1,5 +1,6 @@
 package com.fedormamaevv.SpringProjectTemp;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,8 +17,12 @@ public class ParticipantController {
     }
 
     @GetMapping("api/participants")
-    public List<Participant> getAllParticipants() {
-        return participantRepository.findAll();
+    public List<Participant> getAllParticipants(@RequestParam(required = false, defaultValue = "id") String sortBy,
+                                                @RequestParam(required = false, defaultValue = "asc") String order) {
+        Sort.Direction sortOrder = Sort.Direction.ASC;
+        if (order.compareTo("desc") == 0) sortOrder = Sort.Direction.DESC;
+        List<Participant> participants = participantRepository.findAll(Sort.by(sortOrder, sortBy));
+        return participants;
     }
 
     @GetMapping("api/participants/{id}")
