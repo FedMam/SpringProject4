@@ -9,7 +9,7 @@
     <script type="text/javascript">
         function documentReady() {
             $.ajax({
-                url: 'http://localhost:8080/api/participants',
+                url: 'http://localhost:8080/api/participants' + window.location.search,
                 type: 'GET',
                 dataType: 'json',
                 success: function (participants) {

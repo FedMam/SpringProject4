@@ -31,7 +31,7 @@ function submit() {
             data: JSON.stringify(Participant),
             success: function () {
                 window.alert('Вы были успешно зарегистрированы');
-                location.replace('./participants');
+                location.replace('./participants?order=desc');
             },
             error: function (request, message, error) {
                 document.getElementById('error').innerHTML = 'Ошибка: ' + message;
